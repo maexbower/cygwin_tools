@@ -1,3 +1,14 @@
 #!/bin/bash
 update_setup.sh
-/bin/setup-x86_64.exe $1
+ARCH=$(uname -m)
+CYGEXEC=""
+if [ "$ARCH" == "i686" ]; then
+  CYGEXEC="setup-x86.exe"
+elif [ "$ARCH" == "amd64" ]; then
+  CYGEXEC="setup-x86_64.exe"
+else
+  echo "Rechnerarchitektur $ARCH wird von diesem Skript nicht unterstützt."
+  exit 1
+fi
+/bin/$CYGEXEC $1
+exit $?
